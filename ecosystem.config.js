@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'app_account',
+      name: 'app_checker',
       script: './dist/src/main.js',
       instances: 'max',
       exec_mode: 'cluster',
