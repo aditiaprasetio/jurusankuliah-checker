@@ -2,6 +2,7 @@ import {
   Controller,
   HttpException,
   Req,
+  Request,
   UnauthorizedException,
 } from '@nestjs/common';
 import {
@@ -30,11 +31,21 @@ import { getAccountId } from '../utils/auth';
   },
   query: {
     join: {
+      // tslint:disable-next-line: object-literal-key-quotes
       department: {
-        exclude: [],
+        eager: true,
       },
+      // tslint:disable-next-line: object-literal-key-quotes
       want_department: {
-        exclude: [],
+        eager: true,
+      },
+      'department.university': {
+        eager: true,
+        alias: 'department_university',
+      },
+      'want_department.university': {
+        eager: true,
+        alias: 'want_department_university',
       },
     },
   },
@@ -57,37 +68,29 @@ export class ProfileController implements CrudController<Profile> {
     return this;
   }
 
-  // @Override()
-  // async updateOne(
-  //   @ParsedRequest() req: CrudRequest,
-  //   @ParsedBody() dto: Profile,
-  //   @Req() request: Request,
-  // ) {
-  //   try {
-  //     if ((request.headers as any).authorization) {
-  //       const accountId = await getAccountId(
-  //         (request.headers as any).authorization,
-  //       );
+  @Override()
+  async updateOne(
+    @ParsedRequest() req: CrudRequest,
+    @ParsedBody() dto: Profile,
+    @Req() request: Request,
+  ) {
+    try {
+      const find = req.parsed.paramsFilter.find(
+        (item: any) => item.field === 'id',
+      );
+      const id = find.value;
 
-  //       if (!dto.id) {
-  //         dto = {
-  //           ...dto,
-  //           id: accountId,
-  //         };
-  //       }
+      if ((request.headers as any).authorization) {
+        const accountId = await getAccountId(
+          (request.headers as any).authorization,
+        );
 
-  //       const check = await this.base.getOneBase(req);
-
-  //       if (check) {
-  //         return await this.base.updateOneBase(req, dto);
-  //       } else {
-  //         return await this.base.createOneBase(req, dto);
-  //       }
-  //     } else {
-  //       throw new UnauthorizedException();
-  //     }
-  //   } catch (err) {
-  //     throw new HttpException(err.message || err.response, err.status);
-  //   }
-  // }
+        return await this.service.customUpdateOne(id, dto);
+      } else {
+        throw new UnauthorizedException();
+      }
+    } catch (err) {
+      throw new HttpException(err.message || err.response, err.status);
+    }
+  }
 }

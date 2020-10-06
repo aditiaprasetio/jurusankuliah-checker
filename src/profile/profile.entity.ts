@@ -5,6 +5,7 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import { BaseEntity } from '../base.entity';
 import uuid = require('uuid');
@@ -40,12 +41,26 @@ export class Profile extends BaseEntity {
   @Column({ type: 'varchar', nullable: true })
   want_department_id: string;
 
-  @OneToOne((type) => Department)
-  @JoinColumn()
+  @ManyToOne(
+    () => Department,
+    (department) => department.profiles,
+    {
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
+  @JoinColumn({ name: 'department_id' })
   department: Department;
 
-  @OneToOne((type) => Department)
-  @JoinColumn()
+  @ManyToOne(
+    () => Department,
+    (department) => department.want_profiles,
+    {
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
+  @JoinColumn({ name: 'want_department_id' })
   want_department: Department;
 
   @BeforeInsert()

@@ -14,6 +14,7 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 import { Type } from 'class-transformer';
 import { University } from '../university/university.entity';
 import { DepartmentFamily } from '../departmentFamily/departmentFamily.entity';
+import { Profile } from '../profile/profile.entity';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -84,6 +85,20 @@ export class Department extends BaseEntity {
   )
   @JoinColumn({ name: 'department_family_id' })
   department_family: DepartmentFamily;
+
+  @OneToMany(
+    () => Profile,
+    (profile) => profile.department,
+  )
+  @Type(() => Profile)
+  profiles: Profile[];
+
+  @OneToMany(
+    () => Profile,
+    (profile) => profile.want_department,
+  )
+  @Type(() => Profile)
+  want_profiles: Profile[];
 
   @BeforeInsert()
   protected beforeInsert(): void {
