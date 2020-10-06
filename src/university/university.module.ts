@@ -1,0 +1,14 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UniversityController } from './university.controller';
+import { UniversityService } from './university.service';
+import { University } from './university.entity';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([University])],
+
+  providers: [UniversityService],
+
+  controllers: [UniversityController],
+})
+export class UniversityModule {}

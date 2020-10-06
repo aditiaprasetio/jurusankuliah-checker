@@ -1,29 +1,19 @@
 import { INestApplication } from '@nestjs/common';
-import {
-  DocumentBuilder,
-  SwaggerBaseConfig,
-  SwaggerDocument,
-  SwaggerModule,
-} from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import _ from 'lodash';
 import * as packages from '../package.json';
 
-export function SwaggerBuilder(
-  app: INestApplication,
-  config: any,
-): SwaggerDocument {
+export function SwaggerBuilder(app: INestApplication, config: any): any {
   if (!config.STAGE) config.STAGE = 'LOCAL';
   else config.STAGE = config.STAGE.toUpperCase();
 
-  const setSchemes: ('http' | 'https')[] =
-    config.STAGE === 'LOCAL' ? ['http'] : ['https', 'http'];
-
-  const option: SwaggerBaseConfig = new DocumentBuilder()
+  const option: any = new DocumentBuilder()
     .setTitle(packages.name)
     .setDescription(packages.description)
     .addBearerAuth()
     .setVersion(`v${packages.version}-${config.STAGE.toLowerCase()}`)
-    .setSchemes(...setSchemes)
+    .addServer('http')
+    .addServer('https')
     .build();
 
   const result = SwaggerModule.createDocument(app, option);

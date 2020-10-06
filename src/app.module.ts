@@ -7,10 +7,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import dotenv = require('dotenv');
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TimeoutInterceptor } from './timeout.interceptor';
-import { OTPModule } from './otp/otp.module';
-import { AccountModule } from './account/account.module';
-import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profile/profile.module';
 import * as migrations from './migrations';
+import { DepartmentModule } from './department/department.module';
+import { UniversityModule } from './university/university.module';
+import { SubjectModule } from './subject/subject.module';
+import { DeptFamilySubjectModule } from './deptfamilysubject/deptfamilysubject.module';
+import { DepartmentFamilyModule } from './departmentFamily/departmentFamily.module';
 
 const { parsed } = dotenv.config({
   path:
@@ -42,15 +45,18 @@ process.env = { ...process.env, ...parsed };
         migrationsDir: __dirname + '/migrations',
       },
       migrations: [
-        migrations.InitDB1588731975397,
-        migrations.ChangeUsernameEmailPhoneAsUnique1589170223950,
-        migrations.AddColumnPhoto1589438295339,
-        migrations.AddForgotPasswordToken1589900268802,
+        migrations.InitDB1601900528256,
+        migrations.ReInitDB1601965825640,
+        migrations.RemoveAccountIdFromProfile1601974145255,
+        migrations.AddColumnAccountId1601975406118,
       ],
     }),
-    AccountModule,
-    AuthModule,
-    OTPModule,
+    ProfileModule,
+    UniversityModule,
+    DepartmentModule,
+    DepartmentFamilyModule,
+    SubjectModule,
+    DeptFamilySubjectModule,
   ],
   controllers: [AppController],
   providers: [
