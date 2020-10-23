@@ -15,6 +15,8 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 import { Department } from '../department/department.entity';
+import { Type } from 'class-transformer';
+import { SubjectLike } from '../subjectLike/subjectLike.entity';
 
 @Entity('profiles')
 export class Profile extends BaseEntity {
@@ -62,6 +64,13 @@ export class Profile extends BaseEntity {
   )
   @JoinColumn({ name: 'want_department_id' })
   want_department: Department;
+
+  @OneToMany(
+    () => SubjectLike,
+    (subjectlike) => subjectlike.profile,
+  )
+  @Type(() => SubjectLike)
+  subjectlikes: SubjectLike[];
 
   @BeforeInsert()
   protected beforeInsert(): void {

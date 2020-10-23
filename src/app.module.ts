@@ -13,6 +13,7 @@ import { UniversityModule } from './university/university.module';
 import { SubjectModule } from './subject/subject.module';
 import { DeptFamilySubjectModule } from './deptfamilysubject/deptfamilysubject.module';
 import { DepartmentFamilyModule } from './departmentFamily/departmentFamily.module';
+import { SubjectLikeModule } from './subjectLike/subjectLike.module';
 import * as migrations from './migrations';
 
 const { parsed } = dotenv.config({
@@ -44,7 +45,10 @@ process.env = { ...process.env, ...parsed };
       cli: {
         migrationsDir: __dirname + '/migrations',
       },
-      migrations: [migrations.InitDB1601986774361],
+      migrations: [
+        migrations.InitDB1601986774361,
+        migrations.AddTableSubjectLike1602908535934,
+      ],
     }),
     ProfileModule,
     UniversityModule,
@@ -52,6 +56,7 @@ process.env = { ...process.env, ...parsed };
     DepartmentFamilyModule,
     SubjectModule,
     DeptFamilySubjectModule,
+    SubjectLikeModule,
   ],
   controllers: [AppController],
   providers: [

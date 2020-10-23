@@ -14,14 +14,14 @@ import {
   ParsedBody,
   ParsedRequest,
 } from '@nestjsx/crud';
-import { DeptFamilySubject } from './deptfamilysubject.entity';
+import { SubjectLike } from './subjectLike.entity';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-import { DeptFamilySubjectService } from './deptfamilysubject.service';
+import { SubjectLikeService } from './subjectLike.service';
 import { getAccountId, getAccountDetail } from '../utils/auth';
 
 @Crud({
   model: {
-    type: DeptFamilySubject,
+    type: SubjectLike,
   },
   params: {
     id: {
@@ -31,21 +31,20 @@ import { getAccountId, getAccountDetail } from '../utils/auth';
     },
   },
 })
-@ApiTags('DeptFamilySubject')
-@Controller('deptfamilysubject')
+@ApiTags('SubjectLike')
+@Controller('subjectlike')
 @ApiBearerAuth()
-export class DeptFamilySubjectController
-  implements CrudController<DeptFamilySubject> {
-  constructor(public service: DeptFamilySubjectService) {}
+export class SubjectLikeController implements CrudController<SubjectLike> {
+  constructor(public service: SubjectLikeService) {}
 
-  get base(): CrudController<DeptFamilySubject> {
+  get base(): CrudController<SubjectLike> {
     return this;
   }
 
   @Override()
   async createOne(
     @ParsedRequest() req: CrudRequest,
-    @ParsedBody() dto: DeptFamilySubject,
+    @ParsedBody() dto: SubjectLike,
     @Req() request: Request,
   ) {
     try {
@@ -73,7 +72,7 @@ export class DeptFamilySubjectController
   @Override()
   async createMany(
     @ParsedRequest() req: CrudRequest,
-    @ParsedBody() dto: CreateManyDto<DeptFamilySubject>,
+    @ParsedBody() dto: CreateManyDto<SubjectLike>,
     @Req() request: Request,
   ) {
     try {

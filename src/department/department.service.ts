@@ -8,4 +8,13 @@ export class DepartmentService extends TypeOrmCrudService<Department> {
   constructor(@InjectRepository(Department) repo) {
     super(repo);
   }
+
+  async customUpdateOne(id: string, dto: any) {
+    try {
+      await this.repo.update(id, dto);
+      return await this.repo.findOne(dto);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
 }

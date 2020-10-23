@@ -15,6 +15,16 @@ import { DepartmentFamilyService } from './departmentFamily.service';
       primary: true,
     },
   },
+  query: {
+    join: {
+      university: {
+        eager: true,
+      },
+      departments: {
+        eager: true,
+      },
+    },
+  },
 })
 @ApiTags('DepartmentFamily')
 @Controller('departmentfamily')

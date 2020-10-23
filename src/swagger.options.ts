@@ -12,8 +12,8 @@ export function SwaggerBuilder(app: INestApplication, config: any): any {
     .setDescription(packages.description)
     .addBearerAuth()
     .setVersion(`v${packages.version}-${config.STAGE.toLowerCase()}`)
-    .addServer('http')
-    .addServer('https')
+    // .addServer('http')
+    // .addServer('https')
     .build();
 
   const result = SwaggerModule.createDocument(app, option);

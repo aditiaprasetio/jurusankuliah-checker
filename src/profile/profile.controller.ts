@@ -47,6 +47,14 @@ import { getAccountId } from '../utils/auth';
         eager: true,
         alias: 'want_department_university',
       },
+      'department.department_family': {
+        eager: true,
+        alias: 'department_family',
+      },
+      'want_department.department_family': {
+        eager: true,
+        alias: 'want_department_family',
+      },
     },
   },
   routes: {
