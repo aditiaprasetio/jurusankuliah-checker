@@ -9,6 +9,21 @@ export class ProfileService extends TypeOrmCrudService<Profile> {
     super(repo);
   }
 
+  async customGetOne(id: string) {
+    try {
+      const isExist = await this.repo.findOne(id);
+
+      if (isExist) {
+        return isExist;
+      } else {
+        const created = await this.repo.create({account_id: id});
+        return await this.repo.save(created);
+      }
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
   async customUpdateOne(id: string, dto: any) {
     try {
       await this.repo.update(id, dto);

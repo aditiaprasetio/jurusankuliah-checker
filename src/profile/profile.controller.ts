@@ -77,6 +77,22 @@ export class ProfileController implements CrudController<Profile> {
   }
 
   @Override()
+  getOne(
+    @ParsedRequest() req: CrudRequest,
+  ) {
+    try {
+      const find = req.parsed.paramsFilter.find(
+        (item: any) => item.field === 'id',
+      );
+
+      const id = find.value;
+      return this.service.customGetOne(id);
+    } catch (err) {
+      throw new HttpException(err.message || err.response, err.status);
+    }
+  }
+
+  @Override()
   async updateOne(
     @ParsedRequest() req: CrudRequest,
     @ParsedBody() dto: Profile,
