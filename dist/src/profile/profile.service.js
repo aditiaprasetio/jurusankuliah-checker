@@ -29,17 +29,11 @@ let ProfileService = class ProfileService extends crud_typeorm_1.TypeOrmCrudServ
     constructor(repo) {
         super(repo);
     }
-    customGetOne(id) {
+    customCreateOne(dto) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const isExist = yield this.repo.findOne(id);
-                if (isExist) {
-                    return isExist;
-                }
-                else {
-                    const created = yield this.repo.create({ account_id: id });
-                    return yield this.repo.save(created);
-                }
+                const created = yield this.repo.create(dto);
+                return yield this.repo.save(created);
             }
             catch (err) {
                 return Promise.reject(err);

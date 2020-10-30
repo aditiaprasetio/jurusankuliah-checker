@@ -35,14 +35,22 @@ let ProfileController = class ProfileController {
         return this;
     }
     getOne(req) {
-        try {
-            const find = req.parsed.paramsFilter.find((item) => item.field === 'id');
-            const id = find.value;
-            return this.service.customGetOne(id);
-        }
-        catch (err) {
-            throw new common_1.HttpException(err.message || err.response, err.status);
-        }
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const find = req.parsed.paramsFilter.find((item) => item.field === 'id');
+                const id = find.value;
+                const isExist = yield this.base.getOneBase(req);
+                if (isExist) {
+                    return isExist;
+                }
+                else {
+                    return this.service.customCreateOne({ account_id: id });
+                }
+            }
+            catch (err) {
+                throw new common_1.HttpException(err.message || err.response, err.status);
+            }
+        });
     }
     updateOne(req, dto, request) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -68,7 +76,7 @@ __decorate([
     __param(0, crud_1.ParsedRequest()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "getOne", null);
 __decorate([
     crud_1.Override(),

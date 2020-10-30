@@ -5,6 +5,6 @@ export declare class ProfileController implements CrudController<Profile> {
     service: ProfileService;
     constructor(service: ProfileService);
     get base(): CrudController<Profile>;
-    getOne(req: CrudRequest): Promise<Profile>;
+    getOne(req: CrudRequest): Promise<Profile | Profile[]>;
     updateOne(req: CrudRequest, dto: Profile, request: Request): Promise<Profile>;
 }
