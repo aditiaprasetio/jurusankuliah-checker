@@ -77,16 +77,21 @@ export class ProfileController implements CrudController<Profile> {
   }
 
   @Override()
-  getOne(
-    @ParsedRequest() req: CrudRequest,
-  ) {
+  async getOne(@ParsedRequest() req: CrudRequest) {
     try {
       const find = req.parsed.paramsFilter.find(
         (item: any) => item.field === 'id',
       );
 
       const id = find.value;
-      return this.service.customGetOne(id);
+
+      const isExist = await this.base.getOneBase(req);
+
+      if (isExist) {
+        return isExist;
+      } else {
+        return this.service.customCreateOne({ account_id: id });
+      }
     } catch (err) {
       throw new HttpException(err.message || err.response, err.status);
     }
